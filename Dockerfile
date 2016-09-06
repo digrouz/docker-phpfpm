@@ -62,8 +62,7 @@ RUN apk upgrade --no-cache && \
     sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/php.ini && \
     sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/php.ini && \
     sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0|i" /etc/php5/php.ini && \
-    rm -rf /opt/sickrage/.git* \
-           /tmp/* \
+    rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
     
