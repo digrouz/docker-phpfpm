@@ -10,7 +10,15 @@ ENV LANG='en_US.UTF-8' \
     PHP_MEMORY_LIMIT='512M' \
     MAX_UPLOAD='50' \
     PHP_MAX_FILE_UPLOAD='1024M' \
-    PHP_MAX_POST='1024M' 
+    PHP_MAX_POST='1024M' \ 
+    FPM_PM='dynamic' \
+    FPM_PM_MAX_CHILDREN='20' \
+    FPM_PM_START_SERVERS='5' \
+    FPM_PM_MIN_SPARE_SERVERS='2' \
+    FPM_PM_MAX_SPARE_SERVERS='3' \
+    FPM_PM_MAX_REQUESTS='1000' \ 
+    XCACHE_SIZE=1024M \
+    XCACHE_VAR_SIZE=1024M
 
 ### Install Application
 RUN apk upgrade --no-cache && \
@@ -62,6 +70,15 @@ RUN apk upgrade --no-cache && \
     sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/php.ini && \
     sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/php.ini && \
     sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0|i" /etc/php5/php.ini && \
+    sed -i "s|pm =.*|pm = ${FPM_PM}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|pm.max_children =.*|pm.max_children = ${FPM_PM_MAX_CHILDREN}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|pm.start_servers =.*|pm.start_servers = ${FPM_PM_START_SERVERS}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|pm.min_spare_servers =.*|pm.min_spare_servers = ${FPM_PM_MIN_SPARE_SERVERS}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|pm.max_spare_servers =.*|pm.max_spare_servers = ${FPM_PM_MAX_SPARE_SERVERS}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|pm.max_requests =.*|pm.max_requests = ${FPM_PM_MAX_REQUESTS}|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|;*extension=.*|extension=xcache.so|i" /etc/php5/conf.d/xcache.ini && \
+    sed -i "s|xcache.size =.*|xcache.size = ${XCACHE_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
+    sed -i "s|xcache.var_size =.*|xcache.var_size = ${XCACHE_VAR_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
