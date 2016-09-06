@@ -26,7 +26,7 @@ http://php.net/manual/en/install.fpm.php
 
 ## Usage
 
-  docker create --name=php-fpm 
+    docker create --name=php-fpm 
       -v /etc/localtime:/etc/localtime:ro 
       -v <path to webroot>:/www 
       -v <path to fpm config>:/etc/php5/fpm.d 
