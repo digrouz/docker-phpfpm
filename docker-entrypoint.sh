@@ -21,7 +21,7 @@ if ! /bin/grep -q "${MYUSER}" /etc/passwd; then
 fi
 
 if [ "$1" = 'php-fpm' ]; then
-    exec /sbin/su-exec "${MYUSER}" /usr/bin/php-fpm --fpm-config /etc/php5/php-fpm.conf -c /etc/php5 -F --force-stderr "$@"
+    exec /sbin/su-exec "${MYUSER}" "/usr/bin/php-fpm -O -F -y /etc/php5/php-fpm.conf -c /etc/php5 -F"
 fi
 
 exec "$@"
