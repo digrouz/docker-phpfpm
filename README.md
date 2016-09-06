@@ -40,8 +40,8 @@ When you start the `php-fpm` image, you can adjust the configuration of the `php
 
 ### `DOCKUID`
 
-This variable is not mandatory and specifies the user id that will be set to run the application. It has default value `10000`.
+This variable is not mandatory and specifies the user id that will be set to run the application. It has default value `10001`.
 
 ### `DOCKGID`
 
-This variable is not mandatory and specifies the group id that will be set to run the application. It has default value `10000`.
+This variable is not mandatory and specifies the group id that will be set to run the application. It has default value `10001`.
