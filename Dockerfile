@@ -77,8 +77,8 @@ RUN apk upgrade --no-cache && \
     sed -i "s|pm.max_spare_servers =.*|pm.max_spare_servers = ${FPM_PM_MAX_SPARE_SERVERS}|i" /etc/php5/php-fpm.conf && \
     sed -i "s|pm.max_requests =.*|pm.max_requests = ${FPM_PM_MAX_REQUESTS}|i" /etc/php5/php-fpm.conf && \
     sed -i "s|pm.max_requests =.*|pm.max_requests = ${FPM_PM_MAX_REQUESTS}|i" /etc/php5/php-fpm.conf && \
-    sed -i "s|user =.*|user = wwwuser|i" /etc/php5/php-fpm.conf && \
-    sed -i "s|group =.*|group = wwwuser|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|user =.*|;user = wwwuser|i" /etc/php5/php-fpm.conf && \
+    sed -i "s|group =.*|;group = wwwuser|i" /etc/php5/php-fpm.conf && \
     sed -i "s|;*extension=.*|extension=xcache.so|i" /etc/php5/conf.d/xcache.ini && \
     sed -i "s|xcache.size =.*|xcache.size = ${XCACHE_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
     sed -i "s|xcache.var_size =.*|xcache.var_size = ${XCACHE_VAR_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
