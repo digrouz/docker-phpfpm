@@ -9,8 +9,8 @@ ENV LANG='en_US.UTF-8' \
     TIMEZONE='Europe/Brussels' \
     PHP_MEMORY_LIMIT='512M' \
     MAX_UPLOAD='50' \
-    PHP_MAX_FILE_UPLOAD='200' \
-    PHP_MAX_POST='100M' 
+    PHP_MAX_FILE_UPLOAD='1024M' \
+    PHP_MAX_POST='1024M' 
 
 ### Install Application
 RUN apk upgrade --no-cache && \
@@ -67,10 +67,15 @@ RUN apk upgrade --no-cache && \
            /var/tmp/*
     
 # Expose volumes
-VOLUME ["/www"]
+VOLUME ["/www","/etc/php5/fpm.d"]
 
 # Expose ports
 EXPOSE 9000
 
-# Entry point
-ENTRYPOINT ["/usr/bin/php-fpm"]
+### Running User: not used, managed by docker-entrypoint.sh
+#USER wwwuser
+
+### Start php-fpm
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["php-fpm"]
