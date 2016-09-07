@@ -20,7 +20,7 @@ ENV LANG='en_US.UTF-8' \
     XCACHE_SIZE='1024M' \
     XCACHE_VAR_SIZE='1024M' \
     PHP_MBSTRING_HTTP_INPUT='pass' \
-    PHP_MBSTRING_HTTP_OUTPUT='pass' \
+    PHP_MBSTRING_HTTP_OUTPUT='pass' 
 
 ### Install Application
 RUN apk upgrade --no-cache && \
