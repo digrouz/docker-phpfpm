@@ -26,10 +26,10 @@ http://php.net/manual/en/install.fpm.php
 
 ## Usage
 
-    docker create --name=php-fpm 
-      -v /etc/localtime:/etc/localtime:ro 
-      -v <path to webroot>:/www 
-      -v <path to fpm config>:/etc/php5/fpm.d 
+    docker create --name=php-fpm  \
+      -v /etc/localtime:/etc/localtime:ro \
+      -v <path to webroot>:/www \
+      -v <path to fpm config>:/etc/php5/fpm.d \
       -e DOCKUID=<UID default:10001> \
       -e DOCKGID=<GID default:10001> \
       -e DOCKMAIL=<mail address> \
