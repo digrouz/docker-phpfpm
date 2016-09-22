@@ -27,6 +27,7 @@ ENV LANG='en_US.UTF-8' \
 RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=run-deps \
       su-exec \
+      ssmtp \
       php5-apcu \
       php5-bcmath \
       php5-bz2 \
