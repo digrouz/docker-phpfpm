@@ -22,7 +22,8 @@ ENV LANG='en_US.UTF-8' \
     PHP_MBSTRING_HTTP_INPUT='pass' \
     PHP_MBSTRING_HTTP_OUTPUT='pass' \ 
     PHP_CGI_FIX_INFOPATH='1' \
-    PHP_ENV_PATH='/usr/local/bin:/usr/bin:/bin'
+    PHP_ENV_PATH='/usr/local/bin:/usr/bin:/bin' \
+    PHP_RAW_POST_DATA='-1'
 
 ### Install Application
 RUN apk upgrade --no-cache && \
@@ -78,6 +79,7 @@ RUN apk upgrade --no-cache && \
     sed -i "s|;*mbstring.http_input =.*|mbstring.http_input = ${PHP_MBSTRING_HTTP_INPUT}|i" /etc/php5/php.ini && \
     sed -i "s|;*mbstring.http_output =.*|mbstring.http_output = ${PHP_MBSTRING_HTTP_OUTPUT}|i" /etc/php5/php.ini && \
     sed -i "s|;*cgi.fix_pathinfo.*=.*|cgi.fix_pathinfo = ${PHP_CGI_FIX_INFOPATH}|i" /etc/php5/php.ini && \
+    sed -i "s|;always_populate_raw_post_data.*=.*|always_populate_raw_post_data = ${PHP_RAW_POST_DATA}|i" /etc/php5/php.ini && \
     sed -i "s|pm =.*|pm = ${FPM_PM}|i" /etc/php5/php-fpm.conf && \
     sed -i "s|pm.max_children =.*|pm.max_children = ${FPM_PM_MAX_CHILDREN}|i" /etc/php5/php-fpm.conf && \
     sed -i "s|pm.start_servers =.*|pm.start_servers = ${FPM_PM_START_SERVERS}|i" /etc/php5/php-fpm.conf && \
