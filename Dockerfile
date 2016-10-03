@@ -67,8 +67,7 @@ RUN apk upgrade --no-cache && \
       php5-zlib \
       php5-fpm && \
     sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php5/php-fpm.conf && \
-    sed -i "s|;*env\[PATH\].*=.*/usr/local/bin:/usr/bin:/bin|env\[PATH\] = ${PHP_ENV_PATH}|g" /etc/php5/php-fp
-m.conf && \
+    sed -i "s|;*env\[PATH\].*=.*/usr/local/bin:/usr/bin:/bin|env\[PATH\] = ${PHP_ENV_PATH}|g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*listen\s*=\s*127.0.0.1:9000|listen = 9000|g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*listen\s*=\s*/||g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/php.ini && \
