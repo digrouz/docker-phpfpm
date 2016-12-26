@@ -47,7 +47,6 @@ RUN apk upgrade --no-cache && \
       php5-mysql \
       php5-mysqli \
       php5-odbc \
-      php5-opcache \
       php5-openssl \
       php5-pcntl \
       php5-pdo \
