@@ -1,8 +1,8 @@
 #!/bin/sh
 
-local MYUSER="php-fpm"
-local MYGID="10001"
-local MYUID="10001"
+MYUSER="php-fpm"
+MYGID="10001"
+MYUID="10001"
 
 ConfigureSsmtp () {
   # Customizing sstmp
