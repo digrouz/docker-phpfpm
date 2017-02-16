@@ -70,6 +70,7 @@ RUN apk upgrade --no-cache && \
     sed -i "s|;*env\[PATH\].*=.*/usr/local/bin:/usr/bin:/bin|env\[PATH\] = ${PHP_ENV_PATH}|g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*listen\s*=\s*127.0.0.1:9000|listen = 9000|g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*listen\s*=\s*/||g" /etc/php5/php-fpm.conf && \
+    sed -i "s|;*error_log\s*=\s*/var/log/php-fpm.log|error_log = /var/log/php5/error.log|g" /etc/php5/php-fpm.conf && \
     sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/php.ini && \
     sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php5/php.ini && \
     sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/php.ini && \
@@ -96,7 +97,7 @@ RUN apk upgrade --no-cache && \
            /var/tmp/*
     
 # Expose volumes
-VOLUME ["/www","/etc/php5/fpm.d"]
+VOLUME ["/www","/etc/php5/fpm.d","/var/log/php5"]
 
 # Expose ports
 EXPOSE 9000
