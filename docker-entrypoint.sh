@@ -84,9 +84,14 @@ ConfigureUser
 ConfigureSsmtp
 
 if [ "$1" = 'php-fpm' ]; then
-    touch /var/log/php-fpm.log
-    /bin/chown "${MYUSER}" /var/log/php-fpm.log
-    exec /sbin/su-exec "${MYUSER}" /usr/bin/php-fpm -O -F -y /etc/php5/php-fpm.conf -c /etc/php5 -F
+    if [ ! -d /var/log/php5 ]; then
+      /bin/mkdir -p /var/log/php5
+      /bin/touch /var/log/php5/error.log
+      /bin/chown -R "${MYUSER}":"${MYUSER}" /var/log/php5
+    fi
+    /bin/chmod g+rx /var/log/php5
+    /bin/chmod g+r /var/log/php5/*
+    exec /sbin/su-exec "${MYUSER}" /usr/bin/php-fpm -O -F -y /etc/php5/php-fpm.conf -c /etc/php5 
 fi
 
 exec "$@"
