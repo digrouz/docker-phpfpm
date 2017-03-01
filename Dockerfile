@@ -39,6 +39,7 @@ RUN apk upgrade --no-cache && \
       php5-ftp \
       php5-gd \
       php5-gettext \
+      php5-gmp \
       php5-iconv \
       php5-intl \
       php5-json \
