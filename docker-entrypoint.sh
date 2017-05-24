@@ -16,19 +16,17 @@ DectectOS(){
 }
 
 AutoUpgrade(){
-  if [ -e /etc/alpine-release ]; then
+  if [ "${OS}" == "alpine" ]; then
     /sbin/apk --no-cache upgrade
     /bin/rm -rf /var/cache/apk/*
-  elif [ -e /etc/os-release ]; then
-    if /bin/grep -q "NAME=\"Ubuntu\"" /etc/os-release ; then 
-      export DEBIAN_FRONTEND=noninteractive
-      /usr/bin/apt-get update
-      /usr/bin/apt-get -y --no-install-recommends dist-upgrade
-      /usr/bin/apt-get -y autoclean
-      /usr/bin/apt-get -y clean 
-      /usr/bin/apt-get -y autoremove
-      /bin/rm -rf /var/lib/apt/lists/*
-    fi
+  elif [ "${OS}" == "ubuntu" ]; then
+    export DEBIAN_FRONTEND=noninteractive
+    /usr/bin/apt-get update
+    /usr/bin/apt-get -y --no-install-recommends dist-upgrade
+    /usr/bin/apt-get -y autoclean
+    /usr/bin/apt-get -y clean
+    /usr/bin/apt-get -y autoremove
+    /bin/rm -rf /var/lib/apt/lists/*
   fi
 }
 
