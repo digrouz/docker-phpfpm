@@ -3,6 +3,17 @@
 MYUSER="php-fpm"
 MYGID="10001"
 MYUID="10001"
+OS=""
+
+DectectOS(){
+  if [ -e /etc/alpine-release ]; then
+    OS="alpine"
+  elif [ -e /etc/os-release ]; then
+    if /bin/grep -q "NAME=\"Ubuntu\"" /etc/os-release ; then
+      OS="ubuntu"
+    fi
+  fi
+}
 
 AutoUpgrade(){
   if [ -e /etc/alpine-release ]; then
@@ -81,6 +92,7 @@ ConfigureUser () {
   fi
 }
 
+DectectOS
 AutoUpgrade
 ConfigureUser
 ConfigureSsmtp
