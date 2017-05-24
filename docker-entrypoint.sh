@@ -51,17 +51,15 @@ ConfigureUser () {
   local OLDHOME
   local OLDGID
   local OLDUID
-  /bin/grep -q "${MYUSER}" /etc/passwd
-  if [ $? -eq 0 ]; then
+  if /bin/grep -q "${MYUSER}" /etc/passwd; then
     OLDUID=$(/usr/bin/id -u "${MYUSER}")
     OLDGID=$(/usr/bin/id -g "${MYUSER}")
     if [ "${DOCKUID}" != "${OLDUID}" ]; then
-      OLDHOME=$(/bin/echo "~${MYUSER}")
+      OLDHOME=$(/bin/grep "$MYUSER" /etc/passwd | /usr/bin/awk -F: '{print $6}')
       /usr/sbin/deluser "${MYUSER}"
       /usr/bin/logger "Deleted user ${MYUSER}"
     fi
-    /bin/grep -q "${MYUSER}" /etc/group
-    if [ $? -eq 0 ]; then
+    if /bin/grep -q "${MYUSER}" /etc/group; then
       local OLDGID=$(/usr/bin/id -g "${MYUSER}")
       if [ "${DOCKGID}" != "${OLDGID}" ]; then
         /usr/sbin/delgroup "${MYUSER}"
@@ -69,8 +67,12 @@ ConfigureUser () {
       fi
     fi
   fi
-  /usr/sbin/addgroup -S -g "${MYGID}" "${MYUSER}"
-  /usr/sbin/adduser -S -D -H -s /sbin/nologin -G "${MYUSER}" -h "${OLDHOME}" -u "${MYUID}" "${MYUSER}"
+  if ! /bin/grep -q "${MYUSER}" /etc/group; then
+    /usr/sbin/addgroup -S -g "${MYGID}" "${MYUSER}"
+  fi
+  if ! /bin/grep -q "${MYUSER}" /etc/passwd; then
+    /usr/sbin/adduser -S -D -H -s /sbin/nologin -G "${MYUSER}" -h "${OLDHOME}" -u "${MYUID}" "${MYUSER}"
+  fi
   if [ -n "${OLDUID}" ] && [ "${DOCKUID}" != "${OLDUID}" ]; then
     /usr/bin/find / -user "${OLDUID}" -exec /bin/chown ${MYUSER} {} \;
   fi
