@@ -93,6 +93,9 @@ RUN apk upgrade --no-cache && \
     sed -i "s|;*extension=.*|extension=xcache.so|i" /etc/php5/conf.d/xcache.ini && \
     sed -i "s|xcache.size =.*|xcache.size = ${XCACHE_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
     sed -i "s|xcache.var_size =.*|xcache.var_size = ${XCACHE_VAR_SIZE}|i" /etc/php5/conf.d/xcache.ini && \
+	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');" && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
