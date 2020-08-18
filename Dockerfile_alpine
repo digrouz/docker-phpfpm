@@ -1,0 +1,139 @@
+FROM alpine:3.12
+LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
+
+### Environment variables
+ENV LANG='en_US.UTF-8' \
+    LANGUAGE='en_US.UTF-8' \
+    TERM='xterm' \
+    APPUSER='php-fpm' \
+    APPGID='10001' \
+    APPUID='10001' \
+    PHP_VERSION='7' \
+    SCL_REPO='' \
+    SCL_PREFIX='' \
+    SCL_PKG_PREFIX='' \
+    SCL_PKG_PREFIX2='' \
+    ORACLE_CLIENT_VERSION=''
+ENV PHP_CONF_PREFIX="/etc/"
+ENV PHP_FPM_CONF="${PHP_CONF_PREFIX}php${PHP_VERSION}/php-fpm.conf" \
+    PHP_FPM_POOL_CONF="${PHP_CONF_PREFIX}php${PHP_VERSION}/php-fpm.d/www.conf" \
+    PHP_INI="${PHP_CONF_PREFIX}php${PHP_VERSION}/php.ini" \
+    PHP_APCU_CONF="${PHP_CONF_PREFIX}php${PHP_VERSION}/conf.d/apcu.ini" \
+    PHP_FPM_LOGFILE="/var/log/php${PHP_VERSION}/www-error.log"
+
+# Copy config files
+COPY root/ /
+
+### Install Application
+RUN set -x && \
+    chmod 1777 /tmp && \
+    . /usr/local/bin/docker-entrypoint-functions.sh && \
+    MYUSER="${APPUSER}" && \
+    MYUID="${APPUID}" && \
+    MYGID="${APPGID}" && \
+    ConfigureUser && \
+    apk update --no-cache && \
+    apk add --no-cache --virtual=run-deps \
+      bash \
+      php${PHP_VERSION}-fpm \
+      php${PHP_VERSION}-cli \
+      php${PHP_VERSION}-bcmath \
+      php${PHP_VERSION}-gd \
+      php${PHP_VERSION}-gmp \
+      php${PHP_VERSION}-intl \
+      php${PHP_VERSION}-mbstring \
+      php${PHP_VERSION}-mysqli \
+      php${PHP_VERSION}-odbc \
+      php${PHP_VERSION}-opcache \
+      php${PHP_VERSION}-pdo \
+      php${PHP_VERSION}-pgsql \
+      php${PHP_VERSION}-soap \
+      php${PHP_VERSION}-xml \
+      php${PHP_VERSION}-zip \
+      php${PHP_VERSION}-pecl-apcu \
+      php${PHP_VERSION}-pecl-mcrypt \
+      php${PHP_VERSION}-pecl-memcache \
+      php${PHP_VERSION}-pecl-redis \
+      php${PHP_VERSION}-bz2 \
+      php${PHP_VERSION}-ctype \
+      php${PHP_VERSION}-curl \
+      php${PHP_VERSION}-dom \
+      php${PHP_VERSION}-ftp \
+      php${PHP_VERSION}-gettext \
+      php${PHP_VERSION}-iconv \
+      php${PHP_VERSION}-json \
+      php${PHP_VERSION}-openssl \
+      php${PHP_VERSION}-pcntl \
+      php${PHP_VERSION}-pdo_dblib \
+      php${PHP_VERSION}-pdo_odbc \
+      php${PHP_VERSION}-pdo_mysql \
+      php${PHP_VERSION}-pdo_pgsql \
+      php${PHP_VERSION}-pdo_sqlite \
+      php${PHP_VERSION}-phar \
+      php${PHP_VERSION}-posix \
+      php${PHP_VERSION}-sqlite3 \
+      php${PHP_VERSION}-xmlreader \
+      php${PHP_VERSION}-xmlrpc \
+      ssmtp \
+      su-exec \
+    && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');" && \
+    php -r "copy('https://phar.phpunit.de/phpunit-7.phar', 'phpunit');" && \
+    chmod +x phpunit && \
+    mv phpunit /usr/local/bin/ && \
+    sed -i \
+      -e "s|upload_max_filesize\s*=.*|upload_max_filesize = 100M|g" \
+      -e "s|max_file_uploads\s*=.*|max_file_uploads = 50|g" \
+      -e "s|post_max_size\s*=.*|post_max_size = 100M|g" \
+      -e "s|;cgi.fix_pathinfo\s*=.*|cgi.fix_pathinfo = 1|g" \
+      -e "s|;date.timezone\s*=.*|date.timezone = Europe/Paris|g" \
+      -e "s|memory_limit\s*=.*|memory_limit = 256M|g" \
+    ${PHP_INI} && \
+    sed -i \
+      -e "s|;*daemonize\s*=\s*yes|daemonize = no|g" \
+    ${PHP_FPM_CONF} && \
+    sed -i \
+      -e "s|user\s*=.*|user = php-fpm|g" \
+      -e "s|group\s*=.*|group = php-fpm|g" \
+      -e "s|listen\s*=.*|listen = 0.0.0.0:9000|g" \
+      -e "s|listen.allowed_clients\s*=.*|;listen.allowed_clients = 127.0.0.1|g" \
+      -e "s|pm.max_children\s*=.*|pm.max_children = 20|g" \
+      -e "s|pm.start_servers\s*=.*|pm.start_servers = 2|g" \
+      -e "s|pm.min_spare_servers\s*=.*|pm.min_spare_servers = 1|g" \
+      -e "s|pm.max_spare_servers\s*=.*|pm.max_spare_servers = 3|g" \
+      -e "s|;catch_workers_output\s*=.*|catch_workers_output = yes|g" \
+      -e "s|;clear_env\s*=.*|clear_env = no|g" \
+    ${PHP_FPM_POOL_CONF} && \
+    echo "env[NSS_SDB_USE_CACHE] = YES" >> ${PHP_FPM_POOL_CONF} && \
+    echo "env[TNS_ADMIN] = /usr/lib/oracle/${ORACLE_CLIENT_VERSION}/client64/network/admin" >> ${PHP_FPM_POOL_CONF} && \
+    echo "env[NLS_LANG] = FRENCH_FRANCE.AL32UTF8" >> ${PHP_FPM_POOL_CONF} && \
+    sed -i \
+      -e "s|apc.enabled\s*=.*|apc.enabled=1|g" \
+      -e "s|[;|]apc.shm_size\s*=.*|apc.shm_size=512M|g" \
+      -e "s|[;|]apc.enable_cli\s*=.*|apc.enable_cli=1|g" \
+    ${PHP_APCU_CONF} && \
+    rm -rf ${PHP_FPM_LOGFILE} && \
+    ln -snf /proc/self/fd/2 ${PHP_FPM_LOGFILE} && \
+    ln -snf /usr/sbin/php-fpm${PHP_VERSION} /usr/local/bin/php-fpm && \
+    mkdir -p /var/www/html/default && \
+    mkdir /docker-entrypoint.d && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh && \
+    ln -snf /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh && \
+    rm -rf /tmp/* \
+           /var/cache/apk/*  \
+           /var/tmp/*
+    
+# Expose volumes
+VOLUME ["/var/www/html/default"]
+
+# Expose ports
+EXPOSE 9000
+
+### Running User: not used, managed by docker-entrypoint.sh
+#USER wwwuser
+
+### Start php-fpm
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["php-fpm"]
