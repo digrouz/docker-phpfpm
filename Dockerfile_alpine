@@ -58,9 +58,11 @@ RUN set -x && \
       php${PHP_VERSION}-ctype \
       php${PHP_VERSION}-curl \
       php${PHP_VERSION}-dom \
+      php${PHP_VERSION}-fileinfo \
       php${PHP_VERSION}-ftp \
       php${PHP_VERSION}-gettext \
       php${PHP_VERSION}-iconv \
+      php${PHP_VERSION}-imagick \
       php${PHP_VERSION}-json \
       php${PHP_VERSION}-openssl \
       php${PHP_VERSION}-pcntl \
