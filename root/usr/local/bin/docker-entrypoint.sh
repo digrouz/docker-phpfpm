@@ -8,7 +8,6 @@ MYUID="${APPUID}"
 MYGID="${APPGID}"
 
 ConfigureUser
-ConfigureSsmtp
 
 if [ "$1" = 'php-fpm' ]; then
   DockLog "Fixing permissions on /var/www/html/default"
