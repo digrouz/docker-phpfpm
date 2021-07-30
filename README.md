@@ -1,5 +1,5 @@
 # docker-alp-phpfpm
-Install php-fpm into an Alpine container
+Install php-fpm into a Linux container
 
 ![php](https://php.net/images/logo.php)
 
@@ -36,7 +36,7 @@ http://php.net/manual/en/install.fpm.php
       -e DOCKMAIL=<mail address> \
       -e DOCKRELAY=<smtp relay> \
       -e DOCKMAILDOMAIN=<originating mail domain> \
-      -p 9000:9000 digrouz/docker-alp-phpfpm
+      -p 9000:9000 digrouz/docker-phpfpm
       
 ## Environment Variables
 
