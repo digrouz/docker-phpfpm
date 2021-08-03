@@ -84,7 +84,7 @@ RUN set -x && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php -r "unlink('composer-setup.php');" && \
-    php -r "copy('https://phar.phpunit.de/phpunit-7.phar', 'phpunit');" && \
+    php -r "copy('https://phar.phpunit.de/phpunit-9.phar', 'phpunit');" && \
     chmod +x phpunit && \
     mv phpunit /usr/local/bin/ && \
     sed -i \
