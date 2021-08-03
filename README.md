@@ -1,4 +1,4 @@
-# docker-alp-phpfpm
+# docker-phpfpm
 Install php-fpm into a Linux container
 
 ![php](https://php.net/images/logo.php)
