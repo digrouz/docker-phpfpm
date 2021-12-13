@@ -1,6 +1,6 @@
 [![update-alpine](https://github.com/digrouz/docker-phpfpm/actions/workflows/update-alpine.yml/badge.svg)](https://github.com/digrouz/docker-phpfpm/actions/workflows/update-alpine.yml)
 [![dockerhub](https://github.com/digrouz/docker-phpfpm/actions/workflows/dockerhub.yml/badge.svg)](https://github.com/digrouz/docker-phpfpm/actions/workflows/dockerhub.yml)
-![Docker Pulls](https://img.shields.io/docker/pulls/digrouz/phpfpm)
+![Docker Pulls](https://img.shields.io/docker/pulls/digrouz/php-fpm)
 # docker-phpfpm
 Install php-fpm into a Linux container
 
