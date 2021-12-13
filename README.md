@@ -1,3 +1,5 @@
+[![update-alpine-workflow](https://github.com/digrouz/docker-phpfpm/actions/workflows/auto-update.yml/badge.svg)](https://github.com/digrouz/docker-phpfpm/actions/workflows/update-alpine.yml)
+
 # docker-phpfpm
 Install php-fpm into a Linux container
 
