@@ -133,7 +133,7 @@ RUN set -x && \
            /var/tmp/*
     
 # Expose volumes
-VOLUME ["/var/www/html/default"]
+#VOLUME ["/var/www/html/default"]
 
 # Expose ports
 EXPOSE 9000
