@@ -50,12 +50,3 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/php-fpm:alpine-8
           build-args: PHP_VERSION=8
-      -
-        name: Build and push tag alpine-7
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile_alpine
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/php-fpm:alpine-7
-          build-args: PHP_VERSION=7
