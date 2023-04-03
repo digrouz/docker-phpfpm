@@ -54,7 +54,6 @@ RUN set -x && \
       php${PHP_VERSION}-zip \
       php${PHP_VERSION}-pecl-apcu \
       php${PHP_VERSION}-pecl-imagick \
-      php${PHP_VERSION}-pecl-mcrypt \
       php${PHP_VERSION}-pecl-memcache \
       php${PHP_VERSION}-pecl-redis \
       php${PHP_VERSION}-bz2 \
