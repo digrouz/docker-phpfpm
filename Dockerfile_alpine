@@ -83,6 +83,12 @@ RUN set -x && \
       ssmtp \
       su-exec \
     && \
+    echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    cat /etc/apk/repositories && \
+    apk update --no-cache && \
+    apk add --no-cache --virtual=run-deps-testing \
+      php${PHP_VERSION}-pecl-mcrypt \
+    && \
     php${PHP_VERSION} -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php${PHP_VERSION} composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php${PHP_VERSION} -r "unlink('composer-setup.php');" && \
