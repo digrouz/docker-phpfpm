@@ -40,6 +40,7 @@ RUN set -x && \
       php${PHP_VERSION}-fpm \
       php${PHP_VERSION}-cli \
       php${PHP_VERSION}-bcmath \
+      php${PHP_VERSION}-exif \
       php${PHP_VERSION}-gd \
       php${PHP_VERSION}-gmp \
       php${PHP_VERSION}-intl \
