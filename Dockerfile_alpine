@@ -1,7 +1,8 @@
 FROM alpine:3.18.4
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
-ARG PHP_VERSION='81'
+ARG PHP_VERSION='82'
+ARG PHPUNIT_VERSION='10'
 
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
@@ -11,6 +12,7 @@ ENV LANG='en_US.UTF-8' \
     APPGID='10001' \
     APPUID='10001' \
     PHP_VERSION="${PHP_VERSION}" \
+    PHPUNIT_VERSION="${PHPUNIT_VERSION}" \
     SCL_REPO='' \
     SCL_PREFIX='' \
     SCL_PKG_PREFIX='' \
