@@ -96,7 +96,7 @@ RUN set -x && \
     php${PHP_VERSION} -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php${PHP_VERSION} composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php${PHP_VERSION} -r "unlink('composer-setup.php');" && \
-    php${PHP_VERSION} -r "copy('https://phar.phpunit.de/phpunit-9.phar', 'phpunit');" && \
+    php${PHP_VERSION} -r "copy('https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar', 'phpunit');" && \
     chmod +x phpunit && \
     mv phpunit /usr/local/bin/ && \
     sed -i \
