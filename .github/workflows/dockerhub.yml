@@ -42,11 +42,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/php-fpm:alpine
       -
-        name: Build and push tag alpine-81
+        name: Build and push tag alpine-8
         uses: docker/build-push-action@v3
         with:
           context: .
           file: Dockerfile_alpine
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/php-fpm:alpine-8
-          build-args: PHP_VERSION=81
+          build-args: PHP_VERSION=82
