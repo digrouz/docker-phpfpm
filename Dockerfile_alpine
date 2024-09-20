@@ -39,7 +39,7 @@ RUN set -x && \
     apk update --no-cache && \
     apk add --no-cache --virtual=run-deps \
       bash \
-      ffmepg \
+      ffmpeg \
       icu-data-full \
       imagemagick-svg \
       imagemagick-heic \
