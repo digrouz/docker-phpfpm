@@ -2,7 +2,7 @@ FROM alpine:3.20.3
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ARG PHP_VERSION='82'
-ARG PHPUNIT_VERSION='10'
+ARG PHPUNIT_VERSION='11'
 
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
