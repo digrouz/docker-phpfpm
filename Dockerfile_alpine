@@ -110,7 +110,7 @@ RUN set -x && \
       -e "s|post_max_size\s*=.*|post_max_size = 100M|g" \
       -e "s|;cgi.fix_pathinfo\s*=.*|cgi.fix_pathinfo = 1|g" \
       -e "s|;date.timezone\s*=.*|date.timezone = Europe/Paris|g" \
-      -e "s|memory_limit\s*=.*|memory_limit = 512M|g" \
+      -e "s|memory_limit\s*=.*|memory_limit = 1024M|g" \
       -e "s|;opcache.interned_strings_buffer\s*=.*|opcache.interned_strings_buffer=32|g"\
     ${PHP_INI} && \
     sed -i \
